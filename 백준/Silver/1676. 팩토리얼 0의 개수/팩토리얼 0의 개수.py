@@ -14,7 +14,7 @@ cnt = 0
 for j in range(n):
     if n_factorial[n-1-j] == '0':
         cnt += 1
-    elif n_factorial[n-1-j] != '0':
+    else:
         break
 
 print(cnt)
