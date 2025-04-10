@@ -1,28 +1,40 @@
-t = int(input())
+from collections import deque
 
-for tc in range(1, t + 1):
+def bfs(farm, n):
+
+    visited = [[0] *n for _ in range(n)]
+
+    q = deque()
+
+    si = sj = n // 2
+
+    q.append((si, sj))
+
+    visited[si][sj] = 1
+
+    profit = 0
+
+    d = [(-1,0),(1,0),(0,-1),(0,1)]
+
+    while q:
+        i, j = q.popleft()
+        profit += farm[i][j]
+
+        for dy, dx in d:
+            ny = i + dy
+            nx = j + dx
+
+            distance = abs(ny - si) + abs(nx - sj)
+
+            if 0 <= ny < n and 0 <= nx < n and visited[ny][nx] == 0 and distance <= n//2:
+                q.append((ny, nx))
+                visited[ny][nx] = 1
+
+    return profit
+
+t =int(input())
+for tc in range(1, t+1):
     n = int(input())
-    lst = [list(map(int, input())) for _ in range(n)]
-
-    mid = n // 2
-
-    harvest = 0
-
-    for i in range(n):
-        start = abs(mid - i)
-        end = n - abs(mid - i)
-        for j in range(start, end):
-            harvest += lst[i][j]
-
-    print(f"#{tc} {harvest}")
-
-
-"""
-1
-5
-14054
-44250
-02032
-51204
-52212
-"""
+    farm = [list(map(int, input())) for _ in range(n)]
+    result = bfs(farm, n)
+    print(f'#{tc} {result}')
